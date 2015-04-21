@@ -278,12 +278,6 @@ class block_uai extends block_base {
 			
 	}
 
-	/**
-	 * URL a local/reportes, módulo de reportes de la UAI.
-	 *
-	 * @return string URL al index del módulo reportes
-	 */
-	
 	// Bloque de Asistencias, Proyecto Enero.
 	function asistencias() {
 		global $COURSE, $CFG, $PAGE, $USER, $DB;
@@ -337,8 +331,12 @@ if($COURSE->id == 1){
 		}
 	}
 	
-	
-	
+
+	/**
+	 * URL a local/reportes, módulo de reportes de la UAI.
+	 *
+	 * @return string URL al index del módulo reportes
+	 */
 	function reportes(){
 		global $COURSE, $CFG, $PAGE, $USER;
 
