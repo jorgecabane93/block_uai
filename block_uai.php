@@ -87,7 +87,29 @@ class block_uai extends block_base {
 			return false;
 		}
 
-		require_once($CFG->dirroot.'/local/uai_toolbox/lib.php');
+		$categoryid = 0;
+		if($COURSE && $COURSE->id > 1)
+		    $categoryid = $COURSE->category;
+		elseif ($PAGE->context instanceof context_coursecat)
+		    $categoryid = $PAGE->category->id;
+		
+		if(!$categoryid) {
+		    return false;
+		}
+		
+		    $modulestatsnode = navigation_node::create(
+		        get_string('modulestats', 'local_uai'),
+		        new moodle_url("/local/uai/modulestats.php", array('id'=>$categoryid)),
+		        navigation_node::TYPE_CUSTOM, null, null,
+		        new pix_icon('i/report', get_string('modulestats', 'local_uai'))); //url para ver sedes
+		
+		    $rootnode = navigation_node::create(get_string('pluginname', 'local_uai'));
+		
+		    $rootnode->add_node($modulestatsnode);
+		
+		    return $rootnode;		
+		
+		require_once($CFG->dirroot.'/local/toolbox/lib.php');
 		require_once($CFG->dirroot.'/course/lib.php');
 		require_once($CFG->dirroot.'/lib/accesslib.php');
 		require_once($CFG->dirroot.'/lib/moodlelib.php');
@@ -634,6 +656,9 @@ if($COURSE->id == 1){
 
 		if($nodereportes = $this->reportes())
 			$root->add_node($nodereportes);
+
+		if($nodetoolbox = $this->toolbox())
+			$root->add_node($nodetoolbox);
 
 		$renderer = $this->page->get_renderer('block_uai');
 		$this->content->text = $renderer->uai_tree($root);
