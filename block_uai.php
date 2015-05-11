@@ -88,10 +88,11 @@ class block_uai extends block_base {
 		}
 
 		$categoryid = 0;
-		if($COURSE && $COURSE->id > 1)
+		if($COURSE && $COURSE->id > 1) {
 		    $categoryid = $COURSE->category;
-		elseif ($PAGE->context instanceof context_coursecat)
-		    $categoryid = $PAGE->category->id;
+		} elseif ($PAGE->context instanceof context_coursecat) {
+		    $categoryid = intval($PAGE->context->__get('instanceid'));
+		}
 		
 		if(!$categoryid) {
 		    return false;
@@ -539,13 +540,21 @@ if($COURSE->id == 1){
 			return false;
 		}
 
-		$catid = optional_param('id', 0, PARAM_INT);
-
-		if ($catid==0){
-			$catid=optional_param('categoryid', 0, PARAM_INT);
-		} //definimos el id de la categoria
-
-		$url = new moodle_url("/mod/emarking/print/printorders.php", array("category"=>$catid));
+		if(!has_capability('mod/emarking:printordersview', $PAGE->context))
+		    return false;
+		
+		$categoryid = 0;
+		if($COURSE && $COURSE->id > 1) {
+		    $categoryid = $COURSE->category;
+		} elseif ($PAGE->context instanceof context_coursecat) {
+		    $categoryid = intval($PAGE->context->__get('instanceid'));
+		}
+		
+		if(!$categoryid) {
+		    return false;
+		}
+		
+		$url = new moodle_url("/mod/emarking/print/printorders.php", array("category"=>$categoryid));
 
 		$rootnode = navigation_node::create(
 				get_string('printorders', 'mod_emarking'),
@@ -553,12 +562,7 @@ if($COURSE->id == 1){
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/print', get_string('printorders', 'mod_emarking')));
 
-		if ($catid != 0 //si nos encontramos en la pagina principal no muestra impresiones
-		&& $COURSE->id == 1
-		&& has_capability('mod/emarking:printordersview', $PAGE->context)) {
-			return $rootnode;
-		}
-		return false;
+		return $rootnode;
 	}
 
 	function facebook(){ //desplegamos el contenido de reserva de salas
