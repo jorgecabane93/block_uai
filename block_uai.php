@@ -131,10 +131,10 @@ class block_uai extends block_base {
 		//revisamos la capacidad que tiene el usuario
 		if (has_capability('local/uai_toolbox:viewtoolboxstudent', $context)) {
 			//alumno
-			$html .= '<div><b><a href="'.$toolbox.'?view=miscursos">'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</a></b></div>
+			$html .= '<div><b><a href="'.$toolbox.'?view=miscursos">'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</a></b></div>
 					<div><img src="'.$imagescore .'"></div>
 							<hr>
-							<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+							<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 
 
 		}
@@ -149,22 +149,22 @@ class block_uai extends block_base {
 
 			if ($rank){ // si tiene ranking, desplegamos su posicion en el ranking
 				$totalProfesores = count($ranking);
-				$html .= '<div><b>'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
+				$html .= '<div><b>'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
 						<div><img src="'.$imagescore .'"></div>
-								<div><b>'.get_string('miranking', 'local_uai_toolbox') .$rank .get_string('mirankingde', 'local_uai_toolbox') .$totalProfesores .'</b></div>
+								<div><b>'.get_string('miranking', 'local_toolbox') .$rank .get_string('mirankingde', 'local_toolbox') .$totalProfesores .'</b></div>
 										<hr>
-										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_uai_toolbox').'</a></div>
-												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_toolbox').'</a></div>
+												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 			}
 
 			else { //si no tiene ranking, se le muestra "Sin ranking"
 				$totalProfesores = count($ranking);
-				$html.='<div><b>'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
+				$html.='<div><b>'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
 						<div><img src="'.$imagescore .'"></div>
-								<div><b>'.get_string('miranking', 'local_uai_toolbox').get_string('sinranking', 'local_uai_toolbox').'</b></div>
+								<div><b>'.get_string('miranking', 'local_toolbox').get_string('sinranking', 'local_toolbox').'</b></div>
 										<hr>
-										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_uai_toolbox').'</a></div>
-												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_toolbox').'</a></div>
+												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 			}
 
 
@@ -176,13 +176,13 @@ class block_uai extends block_base {
 			$userid = $USER->id;
 			$rank = $ranking[$userid]->rank;
 			$totalProfesores = count($ranking);
-			$html .= '<div><b>'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
+			$html .= '<div><b>'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
 					<div><img src="'.$imagescore .'"></div>
-							<div><b>'.get_string('miranking', 'local_uai_toolbox') .$rank .get_string('mirankingde', 'local_uai_toolbox') .$totalProfesores .'</b></div>
+							<div><b>'.get_string('miranking', 'local_toolbox') .$rank .get_string('mirankingde', 'local_toolbox') .$totalProfesores .'</b></div>
 									<hr>
-									<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_uai_toolbox').'</a></div>
-											<div><a href="'.$toolbox.'?view=ranking&rank='.$summary["uai"].'">'.get_string('ranking', 'local_uai_toolbox').'</a></div>
-													<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+									<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_toolbox').'</a></div>
+											<div><a href="'.$toolbox.'?view=ranking&rank='.$summary["uai"].'">'.get_string('ranking', 'local_toolbox').'</a></div>
+													<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 		}
 
 		elseif (has_capability('local/uai_toolbox:viewtoolboxuser', $context)){
