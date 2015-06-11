@@ -613,11 +613,9 @@ if($COURSE->id == 1){
 			$facebook =''.$CFG->wwwroot.'/blocks/uai/img/like.png" height="20" width="20"';
 		}
 
-		if($DB->get_record('facebook_testing',array('username'=>$USER->username))){
+		
 			return $rootnode;
-		} else {
-			return false;
-		}
+		
 	}
 
 	public function get_content() {
