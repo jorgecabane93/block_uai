@@ -119,7 +119,7 @@ class block_uai extends block_base {
 		$html='';
 
 		//Link to the page of ToolBox (view.php)
-		$toolbox = $CFG->wwwroot.'/local/uai_toolbox/view.php';
+		$toolbox = $CFG->wwwroot.'/local/toolbox/view.php';
 		$summary = get_summary();
 		$valor = $summary['nivel'];
 		$textscore = get_score_text($valor);
@@ -129,7 +129,7 @@ class block_uai extends block_base {
 		$context = context_course::instance($COURSE->id); //obtenemos el contexto del curso
 
 		//revisamos la capacidad que tiene el usuario
-		if (has_capability('local/uai_toolbox:viewtoolboxstudent', $context)) {
+		if (has_capability('local/toolbox:viewtoolboxstudent', $context)) {
 			//alumno
 			$html .= '<div><b><a href="'.$toolbox.'?view=miscursos">'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</a></b></div>
 					<div><img src="'.$imagescore .'"></div>
@@ -138,7 +138,7 @@ class block_uai extends block_base {
 
 
 		}
-		elseif (has_capability('local/uai_toolbox:viewtoolboxteacher', $context)) {
+		elseif (has_capability('local/toolbox:viewtoolboxteacher', $context)) {
 			//profesor
 			$ranking = get_ranking();
 			$userid = $USER->id;
@@ -170,7 +170,7 @@ class block_uai extends block_base {
 
 
 		}
-		elseif (has_capability('local/uai_toolbox:viewtoolboxmanager', $context)){
+		elseif (has_capability('local/toolbox:viewtoolboxmanager', $context)){
 			//decano y rector y manager
 			$ranking = get_ranking();
 			$userid = $USER->id;
@@ -185,7 +185,7 @@ class block_uai extends block_base {
 													<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 		}
 
-		elseif (has_capability('local/uai_toolbox:viewtoolboxuser', $context)){
+		elseif (has_capability('local/toolbox:viewtoolboxuser', $context)){
 			/////otro usuario
 			$html="";
 		}
