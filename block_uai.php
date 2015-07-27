@@ -33,7 +33,7 @@ class block_uai extends block_base {
 		if (!empty($this->config->enablehoverexpansion) && $this->config->enablehoverexpansion == 'yes') {
 			$attributes['class'] .= ' block_js_expansion';
 		}
-		$attributes['class'] .= ' block_navigation';
+		$attributes['class'] .= ' block_settings';
 		return $attributes;
 	}
 
