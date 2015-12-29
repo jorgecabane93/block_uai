@@ -552,18 +552,31 @@ if($COURSE->id == 1){
 		    return false;
 		}
 		
+		$rootnode = navigation_node::create(get_string('printorders', 'mod_emarking'));
+		
 		$url = new moodle_url("/mod/emarking/print/printorders.php", array("category"=>$categoryid));
 
-		$rootnode = navigation_node::create(
+		$nodeprintorders = navigation_node::create(
 				get_string('printorders', 'mod_emarking'),
 				$url,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/print', get_string('printorders', 'mod_emarking')));
+		
+		$url = new moodle_url("/mod/emarking/printingreports/costcenter.php", array("category"=>$categoryid));
+		
+		$nodecostreport = navigation_node::create(
+				get_string('costreport', 'mod_emarking'),
+				$url,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('t/print', get_string('printorders', 'mod_emarking')));
 
+		$rootnode->add_node($nodeprintorders);
+		$rootnode->add_node($nodecostreport);
+		
 		return $rootnode;
 	}
 
-	function facebook(){ //desplegamos el contenido de reserva de salas
+	function facebook(){ //Show facebook content
 
 		global $USER, $CFG, $DB;
 
@@ -615,6 +628,8 @@ if($COURSE->id == 1){
 			return $rootnode;
 		
 	}
+	
+	
 
 	public function get_content() {
 		global $DB, $USER, $CFG, $COURSE, $PAGE;
@@ -659,12 +674,14 @@ if($COURSE->id == 1){
 
 		if($nodetoolbox = $this->toolbox())
 			$root->add_node($nodetoolbox);
+		
 
 		$renderer = $this->page->get_renderer('block_uai');
 		$this->content->text = $renderer->uai_tree($root);
 		$this->content->footer = '';
 		return $this->content;
 	}
+	
 }
 
 ?>
