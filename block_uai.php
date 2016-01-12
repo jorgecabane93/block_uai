@@ -562,13 +562,13 @@ if($COURSE->id == 1){
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/print', get_string('printorders', 'mod_emarking')));
 		
-		$url = new moodle_url("/mod/emarking/printingreports/costcenter.php", array("category"=>$categoryid));
+		$url = new moodle_url("/mod/emarking/reports/costcenter.php", array("category"=>$categoryid));
 		
 		$nodecostreport = navigation_node::create(
 				get_string('costreport', 'mod_emarking'),
 				$url,
 				navigation_node::TYPE_CUSTOM,
-				null, null, new pix_icon('t/print', get_string('printorders', 'mod_emarking')));
+				null, null, new pix_icon('t/ranges', get_string('printorders', 'mod_emarking')));
 
 		$rootnode->add_node($nodeprintorders);
 		$rootnode->add_node($nodecostreport);
