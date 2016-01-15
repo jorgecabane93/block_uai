@@ -569,9 +569,18 @@ if($COURSE->id == 1){
 				$url,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/ranges', get_string('printorders', 'mod_emarking')));
+		
+		$url = new moodle_url("/mod/emarking/reports/costconfig.php", array("category"=>$categoryid));
+		
+		$nodecostconfiguration = navigation_node::create(
+				get_string('costsettings', 'mod_emarking'),
+				$url,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('a/setting', get_string('printorders', 'mod_emarking')));
 
 		$rootnode->add_node($nodeprintorders);
 		$rootnode->add_node($nodecostreport);
+		$rootnode->add_node($nodecostconfiguration);
 		
 		return $rootnode;
 	}
