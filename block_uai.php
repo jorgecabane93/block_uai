@@ -301,12 +301,6 @@ class block_uai extends block_base {
 			
 	}
 
-	/**
-	 * URL a local/reportes, módulo de reportes de la UAI.
-	 *
-	 * @return string URL al index del módulo reportes
-	 */
-	
 	// Bloque de Asistencias, Proyecto Enero.
 	function asistencias() {
 		global $COURSE, $CFG, $PAGE, $USER, $DB;
@@ -360,8 +354,12 @@ if($COURSE->id == 1){
 		}
 	}
 	
-	
-	
+
+	/**
+	 * URL a local/reportes, módulo de reportes de la UAI.
+	 *
+	 * @return string URL al index del módulo reportes
+	 */
 	function reportes(){
 		global $COURSE, $CFG, $PAGE, $USER;
 
@@ -554,18 +552,40 @@ if($COURSE->id == 1){
 		    return false;
 		}
 		
+		$rootnode = navigation_node::create(get_string('printorders', 'mod_emarking'));
+		
 		$url = new moodle_url("/mod/emarking/print/printorders.php", array("category"=>$categoryid));
 
-		$rootnode = navigation_node::create(
+		$nodeprintorders = navigation_node::create(
 				get_string('printorders', 'mod_emarking'),
 				$url,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/print', get_string('printorders', 'mod_emarking')));
+		
+		$url = new moodle_url("/mod/emarking/reports/costcenter.php", array("category"=>$categoryid));
+		
+		$nodecostreport = navigation_node::create(
+				get_string('costreport', 'mod_emarking'),
+				$url,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('t/ranges', get_string('printorders', 'mod_emarking')));
+		
+		$url = new moodle_url("/mod/emarking/reports/costconfig.php", array("category"=>$categoryid));
+		
+		$nodecostconfiguration = navigation_node::create(
+				get_string('costsettings', 'mod_emarking'),
+				$url,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('a/setting', get_string('printorders', 'mod_emarking')));
 
+		$rootnode->add_node($nodeprintorders);
+		$rootnode->add_node($nodecostreport);
+		$rootnode->add_node($nodecostconfiguration);
+		
 		return $rootnode;
 	}
 
-	function facebook(){ //desplegamos el contenido de reserva de salas
+	function facebook(){ //Show facebook content
 
 		global $USER, $CFG, $DB;
 
@@ -617,6 +637,8 @@ if($COURSE->id == 1){
 			return $rootnode;
 		
 	}
+	
+	
 
 	public function get_content() {
 		global $DB, $USER, $CFG, $COURSE, $PAGE;
@@ -661,12 +683,14 @@ if($COURSE->id == 1){
 
 		if($nodetoolbox = $this->toolbox())
 			$root->add_node($nodetoolbox);
+		
 
 		$renderer = $this->page->get_renderer('block_uai');
 		$this->content->text = $renderer->uai_tree($root);
 		$this->content->footer = '';
 		return $this->content;
 	}
+	
 }
 
 ?>
