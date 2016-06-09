@@ -638,7 +638,9 @@ if($COURSE->id == 1){
 			}
 			
 		} else {
+			if($COURSE && $COURSE->id > 1){
 			$rootnode->add_node($nodoinvite);
+			}
 			$rootnode->add_node($nodoinfo);
 			$rootnode->add_node($nodoapp);
 			$rootnode->add_node($nodonotifications);
