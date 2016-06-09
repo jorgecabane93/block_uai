@@ -33,6 +33,7 @@ $string['printorders'] = 'Print orders';
 $string['reportes'] = 'Reports';
 $string['facebook'] = 'Facebook';
 $string['connect'] = 'Connect';
+$string['invite'] = 'Invite';
 $string['info'] = 'Account information';
 $string['notifications'] = 'Edit notifications';
 $string['goapp'] = 'Go to app';
