@@ -587,7 +587,9 @@ if($COURSE->id == 1){
 
 	function facebook(){ //Show facebook content
 
-		global $USER, $CFG, $DB;
+		global $USER, $CFG, $DB, $COURSE;
+		
+		//$context = context_block::instance($COURSE->id);
 
 		if($CFG->block_uai_local_modules && !in_array('facebook',explode(',',$CFG->block_uai_local_modules))) {
 			return false;
@@ -598,7 +600,12 @@ if($COURSE->id == 1){
 				new moodle_url("/local/facebook/connect.php"), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null);
-
+			
+		$nodoinvite = navigation_node::create(
+				get_string('invite', 'block_uai'),
+				new moodle_url("/local/facebook/invite.php", array('cid' => $COURSE->id)), //url para enlazar y ver información de facebook	
+				navigation_node::TYPE_CUSTOM,
+				null, null);
 		
 		$nodoinfo = navigation_node::create(
 				get_string('info', 'block_uai'),
@@ -626,7 +633,12 @@ if($COURSE->id == 1){
 
 		if($exist==false){
 			$rootnode->add_node($nodoconnect);
+			if($COURSE && $COURSE->id > 1){
+			$rootnode->add_node($nodoinvite);
+			}
+			
 		} else {
+			$rootnode->add_node($nodoinvite);
 			$rootnode->add_node($nodoinfo);
 			$rootnode->add_node($nodoapp);
 			$rootnode->add_node($nodonotifications);
