@@ -633,13 +633,13 @@ if($COURSE->id == 1){
 
 		if($exist==false){
 			$rootnode->add_node($nodoconnect);
-			if($COURSE && $COURSE->id > 1){
-			$rootnode->add_node($nodoinvite);
+			if($COURSE && $COURSE->id > 1 && has_capability('local/facebook:invite', $context)){
+				$rootnode->add_node($nodoinvite);
 			}
 			
 		} else {
-			if($COURSE && $COURSE->id > 1){
-			$rootnode->add_node($nodoinvite);
+			if($COURSE && $COURSE->id > 1 && has_capability('local/facebook:invite', $context)){
+				$rootnode->add_node($nodoinvite);
 			}
 			$rootnode->add_node($nodoinfo);
 			$rootnode->add_node($nodoapp);
