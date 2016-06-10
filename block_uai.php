@@ -651,8 +651,7 @@ if($COURSE->id == 1){
 			return $rootnode;
 		
 	}
-	
-<<<<<<< HEAD
+
 	// Bloque de Paperattendance.
 	function paperattendance() {
 		global $COURSE, $CFG, $PAGE, $USER;
@@ -711,9 +710,6 @@ if($COURSE->id == 1){
 	
 		return $rootnode;
 	}
-=======
-	
->>>>>>> refs/remotes/hansnok/master
 
 	public function get_content() {
 		global $DB, $USER, $CFG, $COURSE, $PAGE;
