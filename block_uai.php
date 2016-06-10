@@ -33,7 +33,7 @@ class block_uai extends block_base {
 		if (!empty($this->config->enablehoverexpansion) && $this->config->enablehoverexpansion == 'yes') {
 			$attributes['class'] .= ' block_js_expansion';
 		}
-		$attributes['class'] .= ' block_navigation';
+		$attributes['class'] .= ' block_uai';
 		return $attributes;
 	}
 
@@ -87,7 +87,30 @@ class block_uai extends block_base {
 			return false;
 		}
 
-		require_once($CFG->dirroot.'/local/uai_toolbox/lib.php');
+		$categoryid = 0;
+		if($COURSE && $COURSE->id > 1) {
+		    $categoryid = $COURSE->category;
+		} elseif ($PAGE->context instanceof context_coursecat) {
+		    $categoryid = intval($PAGE->context->__get('instanceid'));
+		}
+		
+		if(!$categoryid) {
+		    return false;
+		}
+		
+		    $modulestatsnode = navigation_node::create(
+		        get_string('modulestats', 'local_uai'),
+		        new moodle_url("/local/uai/modulestats.php", array('id'=>$categoryid)),
+		        navigation_node::TYPE_CUSTOM, null, null,
+		        new pix_icon('i/report', get_string('modulestats', 'local_uai'))); //url para ver sedes
+		
+		    $rootnode = navigation_node::create(get_string('pluginname', 'local_uai'));
+		
+		    $rootnode->add_node($modulestatsnode);
+		
+		    return $rootnode;		
+		
+		require_once($CFG->dirroot.'/local/toolbox/lib.php');
 		require_once($CFG->dirroot.'/course/lib.php');
 		require_once($CFG->dirroot.'/lib/accesslib.php');
 		require_once($CFG->dirroot.'/lib/moodlelib.php');
@@ -96,7 +119,7 @@ class block_uai extends block_base {
 		$html='';
 
 		//Link to the page of ToolBox (view.php)
-		$toolbox = $CFG->wwwroot.'/local/uai_toolbox/view.php';
+		$toolbox = $CFG->wwwroot.'/local/toolbox/view.php';
 		$summary = get_summary();
 		$valor = $summary['nivel'];
 		$textscore = get_score_text($valor);
@@ -106,16 +129,16 @@ class block_uai extends block_base {
 		$context = context_course::instance($COURSE->id); //obtenemos el contexto del curso
 
 		//revisamos la capacidad que tiene el usuario
-		if (has_capability('local/uai_toolbox:viewtoolboxstudent', $context)) {
+		if (has_capability('local/toolbox:viewtoolboxstudent', $context)) {
 			//alumno
-			$html .= '<div><b><a href="'.$toolbox.'?view=miscursos">'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</a></b></div>
+			$html .= '<div><b><a href="'.$toolbox.'?view=miscursos">'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</a></b></div>
 					<div><img src="'.$imagescore .'"></div>
 							<hr>
-							<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+							<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 
 
 		}
-		elseif (has_capability('local/uai_toolbox:viewtoolboxteacher', $context)) {
+		elseif (has_capability('local/toolbox:viewtoolboxteacher', $context)) {
 			//profesor
 			$ranking = get_ranking();
 			$userid = $USER->id;
@@ -126,43 +149,43 @@ class block_uai extends block_base {
 
 			if ($rank){ // si tiene ranking, desplegamos su posicion en el ranking
 				$totalProfesores = count($ranking);
-				$html .= '<div><b>'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
+				$html .= '<div><b>'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
 						<div><img src="'.$imagescore .'"></div>
-								<div><b>'.get_string('miranking', 'local_uai_toolbox') .$rank .get_string('mirankingde', 'local_uai_toolbox') .$totalProfesores .'</b></div>
+								<div><b>'.get_string('miranking', 'local_toolbox') .$rank .get_string('mirankingde', 'local_toolbox') .$totalProfesores .'</b></div>
 										<hr>
-										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_uai_toolbox').'</a></div>
-												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_toolbox').'</a></div>
+												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 			}
 
 			else { //si no tiene ranking, se le muestra "Sin ranking"
 				$totalProfesores = count($ranking);
-				$html.='<div><b>'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
+				$html.='<div><b>'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
 						<div><img src="'.$imagescore .'"></div>
-								<div><b>'.get_string('miranking', 'local_uai_toolbox').get_string('sinranking', 'local_uai_toolbox').'</b></div>
+								<div><b>'.get_string('miranking', 'local_toolbox').get_string('sinranking', 'local_toolbox').'</b></div>
 										<hr>
-										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_uai_toolbox').'</a></div>
-												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+										<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_toolbox').'</a></div>
+												<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 			}
 
 
 
 		}
-		elseif (has_capability('local/uai_toolbox:viewtoolboxmanager', $context)){
+		elseif (has_capability('local/toolbox:viewtoolboxmanager', $context)){
 			//decano y rector y manager
 			$ranking = get_ranking();
 			$userid = $USER->id;
 			$rank = $ranking[$userid]->rank;
 			$totalProfesores = count($ranking);
-			$html .= '<div><b>'.get_string('minivel','local_uai_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
+			$html .= '<div><b>'.get_string('minivel','local_toolbox').$textscore.' ('.$summary["nivel"].')</b></div>
 					<div><img src="'.$imagescore .'"></div>
-							<div><b>'.get_string('miranking', 'local_uai_toolbox') .$rank .get_string('mirankingde', 'local_uai_toolbox') .$totalProfesores .'</b></div>
+							<div><b>'.get_string('miranking', 'local_toolbox') .$rank .get_string('mirankingde', 'local_toolbox') .$totalProfesores .'</b></div>
 									<hr>
-									<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_uai_toolbox').'</a></div>
-											<div><a href="'.$toolbox.'?view=ranking&rank='.$summary["uai"].'">'.get_string('ranking', 'local_uai_toolbox').'</a></div>
-													<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_uai_toolbox').'</a></div>';
+									<div><a href="'.$toolbox.'?view=miscursos">'.get_string('miscursos', 'local_toolbox').'</a></div>
+											<div><a href="'.$toolbox.'?view=ranking&rank='.$summary["uai"].'">'.get_string('ranking', 'local_toolbox').'</a></div>
+													<div><a href="'.$toolbox.'?view=acerca">'.get_string('acerca', 'local_toolbox').'</a></div>';
 		}
 
-		elseif (has_capability('local/uai_toolbox:viewtoolboxuser', $context)){
+		elseif (has_capability('local/toolbox:viewtoolboxuser', $context)){
 			/////otro usuario
 			$html="";
 		}
@@ -260,7 +283,7 @@ class block_uai extends block_base {
 
 		$nodonewprintorder = navigation_node::create(
 				get_string('newprintorder', 'mod_emarking'),
-				new moodle_url("/mod/emarking/print/newprintorder.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
+				new moodle_url("/course/modedit.php", array("sr"=>0,"add"=>"emarking","section"=>0,"course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/portfolioadd', get_string('newprintorder', 'mod_emarking')));
 		
@@ -515,31 +538,58 @@ if($COURSE->id == 1){
 			return false;
 		}
 
-		$catid = optional_param('id', 0, PARAM_INT);
+		if(!has_capability('mod/emarking:printordersview', $PAGE->context))
+		    return false;
+		
+		$categoryid = 0;
+		if($COURSE && $COURSE->id > 1) {
+		    $categoryid = $COURSE->category;
+		} elseif ($PAGE->context instanceof context_coursecat) {
+		    $categoryid = intval($PAGE->context->__get('instanceid'));
+		}
+		
+		if(!$categoryid) {
+		    return false;
+		}
+		
+		$rootnode = navigation_node::create(get_string('printorders', 'mod_emarking'));
+		
+		$url = new moodle_url("/mod/emarking/print/printorders.php", array("category"=>$categoryid));
 
-		if ($catid==0){
-			$catid=optional_param('categoryid', 0, PARAM_INT);
-		} //definimos el id de la categoria
-
-		$url = new moodle_url("/mod/emarking/print/printorders.php", array("category"=>$catid));
-
-		$rootnode = navigation_node::create(
+		$nodeprintorders = navigation_node::create(
 				get_string('printorders', 'mod_emarking'),
 				$url,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/print', get_string('printorders', 'mod_emarking')));
+		
+		$url = new moodle_url("/mod/emarking/reports/costcenter.php", array("category"=>$categoryid));
+		
+		$nodecostreport = navigation_node::create(
+				get_string('costreport', 'mod_emarking'),
+				$url,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('t/ranges', get_string('printorders', 'mod_emarking')));
+		
+		$url = new moodle_url("/mod/emarking/reports/costconfig.php", array("category"=>$categoryid));
+		
+		$nodecostconfiguration = navigation_node::create(
+				get_string('costsettings', 'mod_emarking'),
+				$url,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('a/setting', get_string('printorders', 'mod_emarking')));
 
-		if ($catid != 0 //si nos encontramos en la pagina principal no muestra impresiones
-		&& $COURSE->id == 1
-		&& has_capability('mod/emarking:printordersview', $PAGE->context)) {
-			return $rootnode;
-		}
-		return false;
+		$rootnode->add_node($nodeprintorders);
+		$rootnode->add_node($nodecostreport);
+		$rootnode->add_node($nodecostconfiguration);
+		
+		return $rootnode;
 	}
 
-	function facebook(){ //desplegamos el contenido de reserva de salas
+	function facebook(){ //Show facebook content
 
-		global $USER, $CFG, $DB;
+		global $USER, $CFG, $DB, $COURSE;
+		
+		//$context = context_block::instance($COURSE->id);
 
 		if($CFG->block_uai_local_modules && !in_array('facebook',explode(',',$CFG->block_uai_local_modules))) {
 			return false;
@@ -550,7 +600,12 @@ if($COURSE->id == 1){
 				new moodle_url("/local/facebook/connect.php"), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null);
-
+			
+		$nodoinvite = navigation_node::create(
+				get_string('invite', 'block_uai'),
+				new moodle_url("/local/facebook/invite.php", array('cid' => $COURSE->id)), //url para enlazar y ver información de facebook	
+				navigation_node::TYPE_CUSTOM,
+				null, null);
 		
 		$nodoinfo = navigation_node::create(
 				get_string('info', 'block_uai'),
@@ -578,7 +633,14 @@ if($COURSE->id == 1){
 
 		if($exist==false){
 			$rootnode->add_node($nodoconnect);
+			if($COURSE && $COURSE->id > 1 && has_capability('local/facebook:invite', $context)){
+				$rootnode->add_node($nodoinvite);
+			}
+			
 		} else {
+			if($COURSE && $COURSE->id > 1 && has_capability('local/facebook:invite', $context)){
+				$rootnode->add_node($nodoinvite);
+			}
 			$rootnode->add_node($nodoinfo);
 			$rootnode->add_node($nodoapp);
 			$rootnode->add_node($nodonotifications);
@@ -590,6 +652,7 @@ if($COURSE->id == 1){
 		
 	}
 	
+<<<<<<< HEAD
 	// Bloque de Paperattendance.
 	function paperattendance() {
 		global $COURSE, $CFG, $PAGE, $USER;
@@ -648,6 +711,9 @@ if($COURSE->id == 1){
 	
 		return $rootnode;
 	}
+=======
+	
+>>>>>>> refs/remotes/hansnok/master
 
 	public function get_content() {
 		global $DB, $USER, $CFG, $COURSE, $PAGE;
@@ -690,11 +756,16 @@ if($COURSE->id == 1){
 		if($nodereportes = $this->reportes())
 			$root->add_node($nodereportes);
 
+		if($nodetoolbox = $this->toolbox())
+			$root->add_node($nodetoolbox);
+		
+
 		$renderer = $this->page->get_renderer('block_uai');
 		$this->content->text = $renderer->uai_tree($root);
 		$this->content->footer = '';
 		return $this->content;
 	}
+	
 }
 
 ?>
