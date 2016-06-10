@@ -53,4 +53,3 @@ $string['upload']="Upload";
 $string['printpaperattendance']="Imprimir lista";
 $string['uploadpaperattendance']="Subir lista escaneada";
 $string['historypaperattendance']="Historial";
-
