@@ -49,4 +49,7 @@ $string['statistics']="Estadísticas";
 $string['viewuserreserves']="Ver reservas por usuario";
 $string['diagnostic']="Diagnóstico";
 $string['upload']="Upload";
+$string['printpaperattendance']="Imprimir lista";
+$string['uploadpaperattendance']="Subir lista escaneada";
+$string['historypaperattendance']="Historial";
 
