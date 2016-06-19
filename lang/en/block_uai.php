@@ -50,3 +50,6 @@ $string['calculator'] = 'Average';
 $string['viewuserreserves']="View user reserves";
 $string['diagnostic']="Diagnostic";
 $string['upload']="Upload";
+$string['printpaperattendance']="Print list";
+$string['uploadpaperattendance']="Upload scanned list";
+$string['historypaperattendance']="History";

@@ -658,8 +658,65 @@ if($COURSE->id == 1){
 			return $rootnode;
 		
 	}
+
+	// Bloque de Paperattendance.
+	function paperattendance() {
+		global $COURSE, $CFG, $PAGE, $USER;
+	
+		$context = context_course::instance($COURSE->id);
+	
+		$course = $PAGE->course;
+	
+		if(!$course || $course->id <= 1)
+		{
+			return false;
+		}
+	
+		else {
+				
+			//url para descargar pdf del listado del curso para tomar asistencia
+			$printattendanceurl = new moodle_url("/local/paperattendance/printattendance.php", array("courseid"=>$course->id));
+	
+			//url para subir un pdf escaneado del curso
+			$uploadattendanceurl = new moodle_url("/local/paperattendance/uploadattendance.php", array("courseid"=>$course->id));
+	
+			//url para ver el historial de pdfs escaneados del curso y sus asistencias digitales
+			$historyattendanceurl = new moodle_url("/local/paperattendance/historyattendance.php", array("courseid"=>$course->id));
 	
 	
+			$nodoprintattendance = navigation_node::create(
+					get_string('printpaperattendance', 'block_uai'),
+					$printattendanceurl,
+					navigation_node::TYPE_CUSTOM,
+					null, null, new pix_icon('e/print', get_string('printpaperattendance', 'block_uai')));
+			$nodouploadattendance = navigation_node::create(
+					get_string('uploadpaperattendance', 'block_uai'),
+					$uploadattendanceurl,
+					navigation_node::TYPE_CUSTOM,
+					null, null, new pix_icon('i/backupp', get_string('uploadpaperattendance', 'block_uai')));
+			$nodohistoryattendance = navigation_node::create(
+					get_string('historypaperattendance', 'block_uai'),
+					$historyattendanceurl,
+					navigation_node::TYPE_CUSTOM,
+					null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
+	
+			$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+	
+	
+			if(has_capability('local/paperattendance:print', $context)){
+				$rootnode->add_node($nodoprintattendance);
+			}
+			elseif(has_capability('local/paperattendance:upload', $context)){
+				$rootnode->add_node($nodouploadattendance);
+			}
+			elseif(has_capability('local/paperattendance:history', $context)){
+				$rootnode->add_node($nodohistoryattendance);
+			}
+	
+		}
+	
+		return $rootnode;
+	}
 
 	public function get_content() {
 		global $DB, $USER, $CFG, $COURSE, $PAGE;
