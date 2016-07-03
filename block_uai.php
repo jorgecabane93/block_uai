@@ -295,7 +295,7 @@ class block_uai extends block_base {
 		
 		$nodoprocess = navigation_node::create(
 				get_string('process', 'mod_emarking'),
-				new moodle_url("/mod/emarking/process/process.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
+				new moodle_url("/mod/emarking/reports/cycle.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('a/view_list_active', get_string('process', 'mod_emarking')));
 
