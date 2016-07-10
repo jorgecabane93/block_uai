@@ -675,13 +675,13 @@ if($COURSE->id == 1){
 		else {
 				
 			//url para descargar pdf del listado del curso para tomar asistencia
-			$printattendanceurl = new moodle_url("/local/paperattendance/printattendance.php", array("courseid"=>$course->id));
+			$printattendanceurl = new moodle_url("/local/paperattendance/print.php", array("courseid"=>$course->id));
 	
 			//url para subir un pdf escaneado del curso
-			$uploadattendanceurl = new moodle_url("/local/paperattendance/uploadattendance.php", array("courseid"=>$course->id));
+			$uploadattendanceurl = new moodle_url("/local/paperattendance/upload.php", array("courseid"=>$course->id));
 	
 			//url para ver el historial de pdfs escaneados del curso y sus asistencias digitales
-			$historyattendanceurl = new moodle_url("/local/paperattendance/historyattendance.php", array("courseid"=>$course->id));
+			$historyattendanceurl = new moodle_url("/local/paperattendance/history.php", array("courseid"=>$course->id));
 	
 	
 			$nodoprintattendance = navigation_node::create(
