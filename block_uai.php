@@ -293,17 +293,17 @@ class block_uai extends block_base {
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('a/view_list_active', get_string('myexams', 'mod_emarking')));
 		
-		$nodoprocess = navigation_node::create(
-				get_string('process', 'mod_emarking'),
+		$nodocycle = navigation_node::create(
+				get_string('cycle', 'mod_emarking'),
 				new moodle_url("/mod/emarking/process/process.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
-				null, null, new pix_icon('a/view_list_active', get_string('process', 'mod_emarking')));
+				null, null, new pix_icon('a/view_list_active', get_string('cycle', 'mod_emarking')));
 
 
 		$rootnode = navigation_node::create(get_string('exams', 'mod_emarking'));
 		$rootnode->add_node($nodonewprintorder);
 		$rootnode->add_node($nodomyexams);
-		$rootnode->add_node($nodoprocess);
+		$rootnode->add_node($nodocycle);
 		return $rootnode;
 			
 	}
