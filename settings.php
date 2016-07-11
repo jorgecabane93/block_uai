@@ -13,13 +13,17 @@ if ($ADMIN->fulltree) {
 					'facebook' => 1,
 					'emarking' => 1,
 					'bibliography' => 1,
-					'reportes' => 1),
+					'reportes' => 1,
+					'paperattendance' => 1
+			),
 			array(
 					'toolbox'=>'local/toolbox',
 					'reservasalas'=>'local/reservasalas',
 					'facebook'=>'local/facebook',
 					'emarking'=>'local/emarking',
 					'bibliography'=>'local/bibliography',
-					'reportes'=>'local/reportes')
+					'reportes'=>'local/reportes',
+					'paperattendance'=>'local/paperattendance'
+			)
 			));
 }

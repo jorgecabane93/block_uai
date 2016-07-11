@@ -693,7 +693,7 @@ if($COURSE->id == 1){
 					get_string('uploadpaperattendance', 'block_uai'),
 					$uploadattendanceurl,
 					navigation_node::TYPE_CUSTOM,
-					null, null, new pix_icon('i/backupp', get_string('uploadpaperattendance', 'block_uai')));
+					null, null, new pix_icon('i/backup', get_string('uploadpaperattendance', 'block_uai')));
 			$nodohistoryattendance = navigation_node::create(
 					get_string('historypaperattendance', 'block_uai'),
 					$historyattendanceurl,
@@ -706,10 +706,10 @@ if($COURSE->id == 1){
 			if(has_capability('local/paperattendance:print', $context)){
 				$rootnode->add_node($nodoprintattendance);
 			}
-			elseif(has_capability('local/paperattendance:upload', $context)){
+			if(has_capability('local/paperattendance:upload', $context)){
 				$rootnode->add_node($nodouploadattendance);
 			}
-			elseif(has_capability('local/paperattendance:history', $context)){
+			if(has_capability('local/paperattendance:history', $context)){
 				$rootnode->add_node($nodohistoryattendance);
 			}
 	
@@ -721,7 +721,7 @@ if($COURSE->id == 1){
 	public function get_content() {
 		global $DB, $USER, $CFG, $COURSE, $PAGE;
 			
-		if ($this->content !== null) { //si el contenido ya esta generado, no se genera una 2� vez
+		if ($this->content !== null) { //si el contenido ya esta generado, no se genera una 2da vez
 			return $this->content;
 		}
 
@@ -761,6 +761,9 @@ if($COURSE->id == 1){
 
 		if($nodetoolbox = $this->toolbox())
 			$root->add_node($nodetoolbox);
+		
+		if($nodepaperattendance = $this->paperattendance())
+			$root->add_node($nodepaperattendance);
 		
 
 		$renderer = $this->page->get_renderer('block_uai');
