@@ -10,7 +10,7 @@ class block_uai extends block_base {
 	public $blockname = null;
 
 	/**
-	 * FunciÃ³n de inicializaciÃ³n del bloque
+	 * Función de inicialización del bloque
 	 */
 	public function init() {
 		$this->blockname = get_class($this);
@@ -59,7 +59,7 @@ class block_uai extends block_base {
 		return true;
 	}
 	/**
-	 * Agrega los llamados a las librerÃ­as javascript necesarias (non-PHPdoc)
+	 * Agrega los llamados a las librerías javascript necesarias (non-PHPdoc)
 	 * @see block_base::get_required_javascript()
 	 */
 	function get_required_javascript() { //habilita la funcion de utlizar el js del menu de arbol
@@ -75,7 +75,7 @@ class block_uai extends block_base {
 
 	/**
 	 * Muestra Toolbox: Ranking actual de los cursos del usuario y link
-	 * a las pÃ¡ginas de detalles.
+	 * a las páginas de detalles.
 	 *
 	 * @return string HTML a mostrar
 	 */
@@ -209,7 +209,7 @@ class block_uai extends block_base {
 	}
 
 	/**
-	 * Muestra la bibliografÃ­a de un curso.
+	 * Muestra la bibliografía de un curso.
 	 *
 	 * @return string
 	 */
@@ -283,27 +283,27 @@ class block_uai extends block_base {
 
 		$nodonewprintorder = navigation_node::create(
 				get_string('newprintorder', 'mod_emarking'),
-				new moodle_url("/course/modedit.php", array("sr"=>0,"add"=>"emarking","section"=>0,"course"=>$courseid)), //url para enlazar y ver informaciÃ³n de facebook
+				new moodle_url("/course/modedit.php", array("sr"=>0,"add"=>"emarking","section"=>0,"course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/portfolioadd', get_string('newprintorder', 'mod_emarking')));
 		
 		$nodomyexams = navigation_node::create(
 				get_string('myexams', 'mod_emarking'),
-				new moodle_url("/mod/emarking/print/exams.php", array("course"=>$courseid)), //url para enlazar y ver informaciÃ³n de facebook
+				new moodle_url("/mod/emarking/print/exams.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('a/view_list_active', get_string('myexams', 'mod_emarking')));
 		
-		$nodocycle = navigation_node::create(
-				get_string('cycle', 'mod_emarking'),
-				new moodle_url("/mod/emarking/reports/cycle.php", array("course"=>$courseid)), //url para enlazar y ver informaciÃ³n de facebook
+		$nodoprocess = navigation_node::create(
+				get_string('process', 'mod_emarking'),
+				new moodle_url("/mod/emarking/process/process.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
-				null, null, new pix_icon('a/view_list_active', get_string('cycle', 'mod_emarking')));
+				null, null, new pix_icon('a/view_list_active', get_string('process', 'mod_emarking')));
 
 
 		$rootnode = navigation_node::create(get_string('exams', 'mod_emarking'));
 		$rootnode->add_node($nodonewprintorder);
 		$rootnode->add_node($nodomyexams);
-		$rootnode->add_node($nodocycle);
+		$rootnode->add_node($nodoprocess);
 		return $rootnode;
 			
 	}
@@ -363,9 +363,9 @@ if($COURSE->id == 1){
 	
 
 	/**
-	 * URL a local/reportes, mÃ³dulo de reportes de la UAI.
+	 * URL a local/reportes, módulo de reportes de la UAI.
 	 *
-	 * @return string URL al index del mÃ³dulo reportes
+	 * @return string URL al index del módulo reportes
 	 */
 	function reportes(){
 		global $COURSE, $CFG, $PAGE, $USER;
@@ -440,7 +440,7 @@ if($COURSE->id == 1){
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai'))); //url para desbloquar usuarios
 		$nodoestadisticas = navigation_node::create(
-				get_string('statistics', 'block_uai'),//'EstadÃ­sticas',
+				get_string('statistics', 'block_uai'),//'Estadísticas',
 				new moodle_url("/local/reservasalas/estadisticas.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai')));
@@ -450,7 +450,7 @@ if($COURSE->id == 1){
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai')));
 		$nododiagnostico = navigation_node::create(
-				get_string('diagnostic', 'block_uai'),//'DiagnÃ³stico',
+				get_string('diagnostic', 'block_uai'),//'Diagnóstico',
 				new moodle_url("/local/reservasalas/diagnostico.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai')));
@@ -604,19 +604,19 @@ if($COURSE->id == 1){
 
 		$nodoconnect = navigation_node::create(
 				get_string('connect', 'block_uai'),
-				new moodle_url("/local/facebook/connect.php"), //url para enlazar y ver informaciÃ³n de facebook
+				new moodle_url("/local/facebook/connect.php"), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null);
 			
 		$nodoinvite = navigation_node::create(
 				get_string('invite', 'block_uai'),
-				new moodle_url("/local/facebook/invite.php", array('cid' => $COURSE->id)), //url para enlazar y ver informaciÃ³n de facebook	
+				new moodle_url("/local/facebook/invite.php", array('cid' => $COURSE->id)), //url para enlazar y ver información de facebook	
 				navigation_node::TYPE_CUSTOM,
 				null, null);
 		
 		$nodoinfo = navigation_node::create(
 				get_string('info', 'block_uai'),
-				new moodle_url("/local/facebook/connect.php"), //url para enlazar y ver informaciÃ³n de facebook
+				new moodle_url("/local/facebook/connect.php"), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null);
 		
@@ -721,7 +721,7 @@ if($COURSE->id == 1){
 	public function get_content() {
 		global $DB, $USER, $CFG, $COURSE, $PAGE;
 			
-		if ($this->content !== null) { //si el contenido ya esta generado, no se genera una 2ï¿½ vez
+		if ($this->content !== null) { //si el contenido ya esta generado, no se genera una 2� vez
 			return $this->content;
 		}
 
