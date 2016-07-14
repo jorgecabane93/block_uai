@@ -682,8 +682,10 @@ if($COURSE->id == 1){
 	
 			//url para ver el historial de pdfs escaneados del curso y sus asistencias digitales
 			$historyattendanceurl = new moodle_url("/local/paperattendance/history.php", array("courseid"=>$course->id));
-	
-	
+			
+			//url para agregar, editar y eliminar modulos
+			$modulesattendanceurl = new moodle_url("/local/paperattendance/modules.php", array("courseid"=>$course->id));
+			
 			$nodoprintattendance = navigation_node::create(
 					get_string('printpaperattendance', 'block_uai'),
 					$printattendanceurl,
@@ -699,9 +701,13 @@ if($COURSE->id == 1){
 					$historyattendanceurl,
 					navigation_node::TYPE_CUSTOM,
 					null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
-	
+			$nodomodulesattendance = navigation_node::create(
+					get_string('modulespaperattendance', 'block_uai'),
+					$modulesattendanceurl,
+					navigation_node::TYPE_CUSTOM,
+					null, null, new pix_icon('i/calendar', get_string('modulespaperattendance', 'block_uai')));
+			
 			$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
-	
 	
 			if(has_capability('local/paperattendance:print', $context)){
 				$rootnode->add_node($nodoprintattendance);
@@ -711,6 +717,9 @@ if($COURSE->id == 1){
 			}
 			if(has_capability('local/paperattendance:history', $context)){
 				$rootnode->add_node($nodohistoryattendance);
+			}
+			if(has_capability('local/paperattendance:modules', $context)){
+				$rootnode->add_node($nodomodulesattendance);
 			}
 	
 		}
