@@ -54,3 +54,4 @@ $string['printpaperattendance']="Print list";
 $string['uploadpaperattendance']="Upload scanned list";
 $string['historypaperattendance']="History";
 $string['paperattendance']="Paper Attendance";
+$string['modulespaperattendance']="Modules editor";
