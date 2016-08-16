@@ -712,9 +712,6 @@ class block_uai extends block_base {
 
 		if($nodereservasalas = $this->reserva_salas())
 			$root->add_node($nodereservasalas);
-		
-		if($nodeasistencias = $this->asistencias())
-			$root->add_node($nodeasistencias);
 
 		if($nodeprintorders = $this->print_orders())
 			$root->add_node($nodeprintorders);
