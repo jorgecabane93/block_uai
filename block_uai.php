@@ -361,11 +361,13 @@ class block_uai extends block_base {
 				new moodle_url("/local/reservasalas/edificios.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai'))); //url para ver edificios creados
+		/*
 		$nodohistorial = navigation_node::create(
 				get_string('historial', 'block_uai'),
 				new moodle_url("/local/reservasalas/historial.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai'))); //url para ver el historial de todas las reservas
+		*/
 		$nodoreservar = navigation_node::create(
 				get_string('reservar', 'block_uai'),
 				new moodle_url("/local/reservasalas/reservar.php"),
@@ -386,11 +388,13 @@ class block_uai extends block_base {
 				new moodle_url("/local/reservasalas/desbloquear.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai'))); //url para desbloquar usuarios
+		/*
 		$nodoestadisticas = navigation_node::create(
 				get_string('statistics', 'block_uai'),//'Estadísticas',
 				new moodle_url("/local/reservasalas/estadisticas.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai')));
+		*/
 		$nodoreservasporusuario = navigation_node::create(
 				get_string('viewuserreserves', 'block_uai'),//'Ver reservas por usuario',
 				new moodle_url("/local/reservasalas/reservasusuarios.php"),
@@ -451,9 +455,9 @@ class block_uai extends block_base {
 
 			if(has_capability('local/reservasalas:bockinginfo', $context)){ //revisamos la capacidad del usuario
 				//administrador
-				$nodesettings->add_node($nodohistorial);
+				//$nodesettings->add_node($nodohistorial);
 				$nodesettings->add_node($nodoreservasporusuario);
-				$nodesettings->add_node($nodoestadisticas);
+				//$nodesettings->add_node($nodoestadisticas);
 				$nodesettings->add_node($nododiagnostico);
 				
 			}

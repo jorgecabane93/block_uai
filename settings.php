@@ -14,7 +14,7 @@ if ($ADMIN->fulltree) {
 					'emarking' => 1,
 					'bibliography' => 1,
 					'reportes' => 1,
-					'paperattendance' => 1
+					'paperattendance' => 0
 			),
 			array(
 					'toolbox'=>'local/toolbox',
@@ -25,5 +25,5 @@ if ($ADMIN->fulltree) {
 					'reportes'=>'local/reportes',
 					'paperattendance'=>'local/paperattendance'
 			)
-			));
+	));
 }
