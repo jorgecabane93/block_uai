@@ -681,7 +681,7 @@ class block_uai extends block_base {
 				}
 				$rootnode->add_node($nodouploadattendance);
 			}
-			if(has_capability('local/paperattendance:history', $context)){
+			if(has_capability('local/paperattendance:history', $context) && $course->id > 1){
 				if($rootnode == FALSE){
 					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
 				}
