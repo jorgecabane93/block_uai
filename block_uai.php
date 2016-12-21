@@ -307,59 +307,6 @@ class block_uai extends block_base {
 		return $rootnode;
 			
 	}
-
-	// Bloque de Asistencias, Proyecto Enero.
-	function asistencias() {
-		global $COURSE, $CFG, $PAGE, $USER, $DB;
-
-		return;
-		$context = context_course::instance($COURSE->id);
-		
-		if(isset($CFG->local_uai_debug) && $CFG->local_uai_debug==1) {
-			$rootnode = navigation_node::create(get_string('attendances', 'local_attendance'));
-			
-if($COURSE->id == 1){
-			$nodomarcar = navigation_node::create(
-					get_string('markattendance', 'local_attendance'),
-					new moodle_url("/local/attendance/markattendance.php",array("courseid"=>$COURSE->id)),
-					navigation_node::TYPE_CUSTOM, null, null,
-					new pix_icon('i/report', 'marcarasistencia'));
-			
-			$rootnode->add_node($nodomarcar);
-}
-		
-	if($COURSE->id > 1){
-	if(has_capability('local/attendance:teacherview', $context)){
-		
-			$nodopasarasistencia = navigation_node::create(
-					get_string('checkattendance', 'local_attendance'),
-					new moodle_url("/local/attendance/attendance.php",array("courseid"=>$COURSE->id)),
-					navigation_node::TYPE_CUSTOM, null, null,
-					new pix_icon('i/report', 'pasarasistencia'));
-			$nodohistorialclase = navigation_node::create(
-					get_string('viewattendance', 'local_attendance'),
-					new moodle_url("/local/attendance/viewstudentrecord.php",array("courseid"=>$COURSE->id)),
-					navigation_node::TYPE_CUSTOM, null, null,
-					new pix_icon('i/report', 'verasistencias'));
-			$rootnode->add_node($nodopasarasistencia);
-			$rootnode->add_node($nodohistorialclase);
-		}
-		
-		if(!has_capability('local/attendance:teacherview', $context)){
-			$nodohistorial = navigation_node::create(
-					get_string('record', 'local_attendance'),
-					new moodle_url("/local/attendance/studentrecord.php",array("courseid"=>$COURSE->id)),
-					navigation_node::TYPE_CUSTOM, null, null,
-					new pix_icon('i/report', 'historial'));
-		
-			$rootnode->add_node($nodohistorial);
-		}
-	}
-	
-	
-		return $rootnode;
-		}
-	}
 	
 
 	/**
@@ -414,11 +361,13 @@ if($COURSE->id == 1){
 				new moodle_url("/local/reservasalas/edificios.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai'))); //url para ver edificios creados
+		/*
 		$nodohistorial = navigation_node::create(
 				get_string('historial', 'block_uai'),
 				new moodle_url("/local/reservasalas/historial.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai'))); //url para ver el historial de todas las reservas
+		*/
 		$nodoreservar = navigation_node::create(
 				get_string('reservar', 'block_uai'),
 				new moodle_url("/local/reservasalas/reservar.php"),
@@ -439,11 +388,13 @@ if($COURSE->id == 1){
 				new moodle_url("/local/reservasalas/desbloquear.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai'))); //url para desbloquar usuarios
+		/*
 		$nodoestadisticas = navigation_node::create(
 				get_string('statistics', 'block_uai'),//'Estadísticas',
 				new moodle_url("/local/reservasalas/estadisticas.php"),
 				navigation_node::TYPE_CUSTOM, null, null,
 				new pix_icon('i/report', get_string('ajsedes', 'block_uai')));
+		*/
 		$nodoreservasporusuario = navigation_node::create(
 				get_string('viewuserreserves', 'block_uai'),//'Ver reservas por usuario',
 				new moodle_url("/local/reservasalas/reservasusuarios.php"),
@@ -504,9 +455,9 @@ if($COURSE->id == 1){
 
 			if(has_capability('local/reservasalas:bockinginfo', $context)){ //revisamos la capacidad del usuario
 				//administrador
-				$nodesettings->add_node($nodohistorial);
+				//$nodesettings->add_node($nodohistorial);
 				$nodesettings->add_node($nodoreservasporusuario);
-				$nodesettings->add_node($nodoestadisticas);
+				//$nodesettings->add_node($nodoestadisticas);
 				$nodesettings->add_node($nododiagnostico);
 				
 			}
@@ -593,7 +544,6 @@ if($COURSE->id == 1){
 	}
 
 	function facebook(){ //Show facebook content
-
 		global $USER, $CFG, $DB, $COURSE;
 		
 		//$context = context_block::instance($COURSE->id);
@@ -607,12 +557,7 @@ if($COURSE->id == 1){
 				new moodle_url("/local/facebook/connect.php"), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null);
-			
-		$nodoinvite = navigation_node::create(
-				get_string('invite', 'block_uai'),
-				new moodle_url("/local/facebook/invite.php", array('cid' => $COURSE->id)), //url para enlazar y ver información de facebook	
-				navigation_node::TYPE_CUSTOM,
-				null, null);
+
 		
 		$nodoinfo = navigation_node::create(
 				get_string('info', 'block_uai'),
@@ -622,13 +567,7 @@ if($COURSE->id == 1){
 		
 		$nodoapp = navigation_node::create(
 				get_string('goapp', 'block_uai'),
-				'https://apps.facebook.com/webcursosuai/',
-				navigation_node::TYPE_CUSTOM,
-				null, null);
-
-		$nodonotifications = navigation_node::create(
-				get_string('notifications', 'block_uai'),
-				new moodle_url("/message/edit.php?id=".$USER->id.""), //url para configurar las notificaciones
+				$CFG->fbk_url,
 				navigation_node::TYPE_CUSTOM,
 				null, null);
 
@@ -636,40 +575,62 @@ if($COURSE->id == 1){
 
 		$context = context_system::instance();
 
-		$exist=$DB->get_record('facebook_user',array('moodleid'=>$USER->id,'status'=>'1'));
+		$exist = $DB->get_record('facebook_user',array('moodleid'=>$USER->id,'status'=>'1'));
 
 		if($exist==false){
 			$rootnode->add_node($nodoconnect);
-			if($COURSE && $COURSE->id > 1 && has_capability('local/facebook:invite', $context)){
-				$rootnode->add_node($nodoinvite);
-			}
 			
 		} else {
-			if($COURSE && $COURSE->id > 1 && has_capability('local/facebook:invite', $context)){
-				$rootnode->add_node($nodoinvite);
-			}
 			$rootnode->add_node($nodoinfo);
 			$rootnode->add_node($nodoapp);
-			$rootnode->add_node($nodonotifications);
 			$facebook =''.$CFG->wwwroot.'/blocks/uai/img/like.png" height="20" width="20"';
 		}
 
-		
 			return $rootnode;
 		
 	}
 
 	// Bloque de Paperattendance.
 	function paperattendance() {
-		global $COURSE, $CFG, $PAGE, $USER;
+		global $COURSE, $PAGE;
 	
 		$context = context_course::instance($COURSE->id);
 	
 		$course = $PAGE->course;
+		
+		$rootnode = false;
 	
-		if(!$course || $course->id <= 1)
-		{
-			return false;
+		if(!$course || $course->id <= 1 && (has_capability('local/paperattendance:upload', $context) || has_capability('local/paperattendance:modules', $context)) ){
+			//url para subir un pdf escaneado del curso
+			$uploadattendanceurl = new moodle_url("/local/paperattendance/upload.php", array("courseid"=>$course->id));
+			
+			//url para agregar, editar y eliminar modulos
+			$modulesattendanceurl = new moodle_url("/local/paperattendance/modules.php", array("courseid"=>$course->id));
+			
+			$nodouploadattendance = navigation_node::create(
+					get_string('uploadpaperattendance', 'block_uai'),
+					$uploadattendanceurl,
+					navigation_node::TYPE_CUSTOM,
+					null, null, new pix_icon('i/backup', get_string('uploadpaperattendance', 'block_uai')));
+			
+			$nodomodulesattendance = navigation_node::create(
+					get_string('modulespaperattendance', 'block_uai'),
+					$modulesattendanceurl,
+					navigation_node::TYPE_CUSTOM,
+					null, null, new pix_icon('i/calendar', get_string('modulespaperattendance', 'block_uai')));
+			
+			
+			if(has_capability('local/paperattendance:upload', $context)){
+				$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				$rootnode->add_node($nodouploadattendance);
+			}
+			if(has_capability('local/paperattendance:modules', $context)){
+				if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
+				$rootnode->add_node($nodomodulesattendance);
+			}
+			
 		}
 	
 		else {
@@ -707,18 +668,29 @@ if($COURSE->id == 1){
 					navigation_node::TYPE_CUSTOM,
 					null, null, new pix_icon('i/calendar', get_string('modulespaperattendance', 'block_uai')));
 			
-			$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
 	
 			if(has_capability('local/paperattendance:print', $context)){
+				if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 				$rootnode->add_node($nodoprintattendance);
 			}
 			if(has_capability('local/paperattendance:upload', $context)){
+				if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 				$rootnode->add_node($nodouploadattendance);
 			}
 			if(has_capability('local/paperattendance:history', $context)){
+				if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 				$rootnode->add_node($nodohistoryattendance);
 			}
 			if(has_capability('local/paperattendance:modules', $context)){
+				if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 				$rootnode->add_node($nodomodulesattendance);
 			}
 	
@@ -728,7 +700,6 @@ if($COURSE->id == 1){
 	}
 
 	public function get_content() {
-		global $DB, $USER, $CFG, $COURSE, $PAGE;
 			
 		if ($this->content !== null) { //si el contenido ya esta generado, no se genera una 2da vez
 			return $this->content;
@@ -750,30 +721,27 @@ if($COURSE->id == 1){
 				null,
 				null);
 
-		if($nodereservasalas = $this->reserva_salas())
+		if($nodereservasalas = $this->reserva_salas()){
 			$root->add_node($nodereservasalas);
-		
-		if($nodeasistencias = $this->asistencias())
-			$root->add_node($nodeasistencias);
-
-		if($nodeprintorders = $this->print_orders())
+		}
+		if($nodeprintorders = $this->print_orders()){
 			$root->add_node($nodeprintorders);
-
-		if($nodeemarking = $this->emarking())
+		}
+		if($nodeemarking = $this->emarking()){
 			$root->add_node($nodeemarking);
-
-		if($nodefacebook = $this->facebook())
+		}
+		if($nodefacebook = $this->facebook()){
 			$root->add_node($nodefacebook);
-
-		if($nodereportes = $this->reportes())
+		}
+		if($nodereportes = $this->reportes()){
 			$root->add_node($nodereportes);
-
-		if($nodetoolbox = $this->toolbox())
+		}
+		if($nodetoolbox = $this->toolbox()){
 			$root->add_node($nodetoolbox);
-		
-		if($nodepaperattendance = $this->paperattendance())
+		}
+		if($nodepaperattendance = $this->paperattendance()){
 			$root->add_node($nodepaperattendance);
-		
+		}
 
 		$renderer = $this->page->get_renderer('block_uai');
 		$this->content->text = $renderer->uai_tree($root);
@@ -782,5 +750,3 @@ if($COURSE->id == 1){
 	}
 	
 }
-
-?>
