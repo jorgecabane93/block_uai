@@ -605,7 +605,7 @@ class block_uai extends block_base {
 		    $categoryid = intval($PAGE->context->__get('instanceid'));
 		}
 		if($categoryid == 0){
-			$categoryid = required_param("categoryid", PARAM_INT);
+			$categoryid = optional_param("categoryid", 1, PARAM_INT);
 		}
 		$contextsecre = context_coursecat::instance($categoryid);
 		
