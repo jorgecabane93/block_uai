@@ -594,7 +594,7 @@ class block_uai extends block_base {
 	function paperattendance() {
 		global $COURSE, $PAGE;
 	
-		$PAGE->context;
+		$context = $PAGE->context;
 	
 		$course = $PAGE->course;
 		
