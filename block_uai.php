@@ -644,6 +644,9 @@ class block_uai extends block_base {
 			$context = $contextsecre;
 		}
 		if(has_capability('local/paperattendance:modules', $context)){
+			if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 			$rootnode->add_node($nodomodulesattendance);
 		}
 			
