@@ -594,21 +594,17 @@ class block_uai extends block_base {
 	function paperattendance() {
 		global $COURSE, $PAGE;
 	
-		return FALSE;
-		/*
 		$context = $PAGE->context;
 		$course = $PAGE->course;
 		
-		// GET THE FUCKING CATEGORY!
-		$categoryid = 0;
-		if($COURSE && $COURSE->id > 1) {
-		    $categoryid = $COURSE->category;
-		} elseif ($PAGE->context instanceof context_coursecat) {
-		    $categoryid = intval($PAGE->context->__get('instanceid'));
-		}
-		if($categoryid == 0){
-			$categoryid = optional_param("categoryid", 1, PARAM_INT);
+		$categoryid = optional_param("categoryid", 1, PARAM_INT);
+		$contextsecre = null;
+		if($course->id > 1){
+			$categoryid = $course->category;
 			$contextsecre = context_coursecat::instance($categoryid);
+		}
+		if($contextsecre == null){
+			$contextsecre = $context;
 		}
 		
 		$rootnode = false;
@@ -690,7 +686,7 @@ class block_uai extends block_base {
 		}
 	
 		return $rootnode;
-		*/
+		
 	}
 
 	public function get_content() {
