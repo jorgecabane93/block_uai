@@ -602,11 +602,12 @@ class block_uai extends block_base {
 		if($course->id > 1){
 			$categoryid = $course->category;
 			$contextsecre = context_coursecat::instance($categoryid);
+			echo "entre<br>";
 		}
 		if($contextsecre == null){
 			$contextsecre = $context;
 		}
-		
+		echo "el id del curso es ".$course->id." el id de la categoria es ".$categoryid;
 		$rootnode = false;
 		
 		//url para subir un pdf escaneado del curso
