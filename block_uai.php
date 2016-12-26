@@ -673,6 +673,9 @@ class block_uai extends block_base {
 					null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
 	
 			if(has_capability('local/paperattendance:print', $context)){
+				if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 				$rootnode->add_node($nodoprintattendance);
 			}
 			
