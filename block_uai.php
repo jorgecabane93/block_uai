@@ -594,6 +594,8 @@ class block_uai extends block_base {
 	function paperattendance() {
 		global $COURSE, $PAGE;
 	
+		return FALSE;
+		/*
 		$context = $PAGE->context;
 		$course = $PAGE->course;
 		
@@ -688,6 +690,7 @@ class block_uai extends block_base {
 		}
 	
 		return $rootnode;
+		*/
 	}
 
 	public function get_content() {
