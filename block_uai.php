@@ -606,8 +606,8 @@ class block_uai extends block_base {
 		}
 		if($categoryid == 0){
 			$categoryid = optional_param("categoryid", 1, PARAM_INT);
+			$contextsecre = context_coursecat::instance($categoryid);
 		}
-		$contextsecre = context_coursecat::instance($categoryid);
 		
 		$rootnode = false;
 		
