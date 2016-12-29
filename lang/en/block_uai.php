@@ -55,3 +55,7 @@ $string['uploadpaperattendance']="Upload scanned list";
 $string['historypaperattendance']="History";
 $string['paperattendance']="Paper Attendance";
 $string['modulespaperattendance']=" Modules editor";
+$string['syncomega']="Sync";
+$string['synchistory']="History";
+$string['synccreate']="Create";
+$string['syncrecord']="Active/Disabled Records";

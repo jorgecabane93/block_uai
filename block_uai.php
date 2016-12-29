@@ -282,13 +282,13 @@ class block_uai extends block_base {
 		}
 
 		$nodonewprintorder = navigation_node::create(
-				get_string('newprintorder', 'mod_emarking'),
+				get_string('blocknewprintorder', 'mod_emarking'),
 				new moodle_url("/course/modedit.php", array("sr"=>0,"add"=>"emarking","section"=>0,"course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/portfolioadd', get_string('newprintorder', 'mod_emarking')));
 		
 		$nodomyexams = navigation_node::create(
-				get_string('myexams', 'mod_emarking'),
+				get_string('blockmyexams', 'mod_emarking'),
 				new moodle_url("/mod/emarking/print/exams.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('a/view_list_active', get_string('myexams', 'mod_emarking')));
@@ -300,7 +300,7 @@ class block_uai extends block_base {
 				null, null, new pix_icon('i/course', get_string('cycle', 'mod_emarking')));
 
 
-		$rootnode = navigation_node::create(get_string('exams', 'mod_emarking'));
+		$rootnode = navigation_node::create(get_string('blockexams', 'mod_emarking'));
 		$rootnode->add_node($nodonewprintorder);
 		$rootnode->add_node($nodomyexams);
 		$rootnode->add_node($nodocycle);
@@ -644,6 +644,9 @@ class block_uai extends block_base {
 			$context = $contextsecre;
 		}
 		if(has_capability('local/paperattendance:modules', $context)){
+			if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 			$rootnode->add_node($nodomodulesattendance);
 		}
 			
@@ -673,6 +676,9 @@ class block_uai extends block_base {
 					null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
 	
 			if(has_capability('local/paperattendance:print', $context)){
+				if($rootnode == FALSE){
+					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+				}
 				$rootnode->add_node($nodoprintattendance);
 			}
 			
@@ -687,6 +693,43 @@ class block_uai extends block_base {
 	
 		return $rootnode;
 		
+	}
+	
+	function syncomega(){
+		global $CFG;
+	
+		if($CFG->block_uai_local_modules
+				&& !in_array('syncomega',explode(',',$CFG->block_uai_local_modules))) {
+					return false;
+			}
+			$nodohistorial = navigation_node::create(
+					get_string('synchistory', 'block_uai'),
+					new moodle_url("/local/sync/history.php"),
+					navigation_node::TYPE_CUSTOM, null, null);
+
+			$nodocreate = navigation_node::create(
+					get_string('synccreate', 'block_uai'),
+					new moodle_url("/local/sync/create.php"),
+					navigation_node::TYPE_CUSTOM, null, null);
+
+			$nodorecord = navigation_node::create(
+					get_string('syncrecord', 'block_uai'),
+					new moodle_url("/local/sync/record.php"),
+					navigation_node::TYPE_CUSTOM, null, null);
+
+
+
+			$context = context_system::instance();
+			if(has_capability('local/sync:history', $context)) {
+				$rootnode = navigation_node::create(get_string('syncomega', 'block_uai'));
+				$rootnode->add_node($nodocreate);
+				$rootnode->add_node($nodorecord);
+				$rootnode->add_node($nodohistorial);
+				return $rootnode;
+			}
+			else{
+				return false;
+			}
 	}
 
 	public function get_content() {
@@ -731,6 +774,9 @@ class block_uai extends block_base {
 		}
 		if($nodepaperattendance = $this->paperattendance()){
 			$root->add_node($nodepaperattendance);
+		}
+		if($nodesyncomega = $this->syncomega()){
+			$root->add_node($nodesyncomega);
 		}
 
 		$renderer = $this->page->get_renderer('block_uai');
