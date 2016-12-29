@@ -696,15 +696,12 @@ class block_uai extends block_base {
 	}
 	
 	function syncomega(){
-	
-		global $USER, $CFG, $DB, $COURSE, $PAGE;
+		global $CFG;
 	
 		if($CFG->block_uai_local_modules
 				&& !in_array('syncomega',explode(',',$CFG->block_uai_local_modules))) {
-					echo "hola1";
 					return false;
 			}
-			echo "no";
 			$nodohistorial = navigation_node::create(
 					get_string('synchistory', 'block_uai'),
 					new moodle_url("/local/sync/history.php"),
