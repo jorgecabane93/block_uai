@@ -595,6 +595,10 @@ class block_uai extends block_base {
 		global $COURSE, $PAGE;
 	
 		$context = $PAGE->context;
+<<<<<<< HEAD
+=======
+	
+>>>>>>> origin/master
 		$course = $PAGE->course;
 		
 		$categoryid = optional_param("categoryid", 1, PARAM_INT);
