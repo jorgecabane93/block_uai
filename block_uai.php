@@ -694,6 +694,43 @@ class block_uai extends block_base {
 		return $rootnode;
 		
 	}
+	
+	function syncomega(){
+		global $CFG;
+	
+		if($CFG->block_uai_local_modules
+				&& !in_array('syncomega',explode(',',$CFG->block_uai_local_modules))) {
+					return false;
+			}
+			$nodohistorial = navigation_node::create(
+					get_string('synchistory', 'block_uai'),
+					new moodle_url("/local/sync/history.php"),
+					navigation_node::TYPE_CUSTOM, null, null);
+
+			$nodocreate = navigation_node::create(
+					get_string('synccreate', 'block_uai'),
+					new moodle_url("/local/sync/create.php"),
+					navigation_node::TYPE_CUSTOM, null, null);
+
+			$nodorecord = navigation_node::create(
+					get_string('syncrecord', 'block_uai'),
+					new moodle_url("/local/sync/record.php"),
+					navigation_node::TYPE_CUSTOM, null, null);
+
+
+
+			$context = context_system::instance();
+			if(has_capability('local/sync:history', $context)) {
+				$rootnode = navigation_node::create(get_string('syncomega', 'block_uai'));
+				$rootnode->add_node($nodocreate);
+				$rootnode->add_node($nodorecord);
+				$rootnode->add_node($nodohistorial);
+				return $rootnode;
+			}
+			else{
+				return false;
+			}
+	}
 
 	public function get_content() {
 			
@@ -737,6 +774,9 @@ class block_uai extends block_base {
 		}
 		if($nodepaperattendance = $this->paperattendance()){
 			$root->add_node($nodepaperattendance);
+		}
+		if($nodesyncomega = $this->syncomega()){
+			$root->add_node($nodesyncomega);
 		}
 
 		$renderer = $this->page->get_renderer('block_uai');

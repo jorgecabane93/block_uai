@@ -14,7 +14,8 @@ if ($ADMIN->fulltree) {
 					'emarking' => 1,
 					'bibliography' => 1,
 					'reportes' => 1,
-					'paperattendance' => 0
+					'paperattendance' => 0,
+					'syncomega' => 1
 			),
 			array(
 					'toolbox'=>'local/toolbox',
@@ -23,7 +24,8 @@ if ($ADMIN->fulltree) {
 					'emarking'=>'local/emarking',
 					'bibliography'=>'local/bibliography',
 					'reportes'=>'local/reportes',
-					'paperattendance'=>'local/paperattendance'
+					'paperattendance'=>'local/paperattendance',
+					'syncomega'=>'local/sync'					
 			)
 	));
 }
