@@ -664,17 +664,20 @@ class block_uai extends block_base {
 			$nodohistorial = navigation_node::create(
 					get_string('synchistory', 'block_uai'),
 					new moodle_url("/local/sync/history.php"),
-					navigation_node::TYPE_CUSTOM, null, null);
+					navigation_node::TYPE_CUSTOM, null, null,
+					new pix_icon('i/siteevent', get_string('synchistory', 'block_uai'))); //url para reservar salas;
 
 			$nodocreate = navigation_node::create(
 					get_string('synccreate', 'block_uai'),
 					new moodle_url("/local/sync/create.php"),
-					navigation_node::TYPE_CUSTOM, null, null);
+					navigation_node::TYPE_CUSTOM, null, null,
+					new pix_icon('e/new_document', get_string('synccreate', 'block_uai')));
 
 			$nodorecord = navigation_node::create(
 					get_string('syncrecord', 'block_uai'),
 					new moodle_url("/local/sync/record.php"),
-					navigation_node::TYPE_CUSTOM, null, null);
+					navigation_node::TYPE_CUSTOM, null, null,
+					new pix_icon('e/fullpage', get_string('syncrecord', 'block_uai')));
 
 
 
