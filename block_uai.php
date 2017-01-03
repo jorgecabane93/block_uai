@@ -592,107 +592,66 @@ class block_uai extends block_base {
 
 	// Bloque de Paperattendance.
 	function paperattendance() {
-		global $COURSE, $PAGE;
+		global $COURSE, $PAGE, $CFG;
 	
-		$context = $PAGE->context;
-		$course = $PAGE->course;
-		
+		if($CFG->block_uai_local_modules && !in_array('paperattendance',explode(',',$CFG->block_uai_local_modules))) {
+			return false;
+		}
+	
 		$categoryid = optional_param("categoryid", 1, PARAM_INT);
-		$contextsecre = null;
-		if($course->id > 1){
-			$categoryid = $course->category;
-			$contextsecre = context_coursecat::instance($categoryid);
-		}
-		if($contextsecre == null){
-			$contextsecre = $context;
-		}
-		
-		$rootnode = false;
-		
+		$context = $PAGE->context;
+	
+		$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
+	
 		//url para subir un pdf escaneado del curso
-		$uploadattendanceurl = new moodle_url("/local/paperattendance/upload.php", array(
-				"courseid" => $course->id, 
-				"categoryid" => $categoryid
-		));
-		
-		//url para agregar, editar y eliminar modulos
-		$modulesattendanceurl = new moodle_url("/local/paperattendance/modules.php");
-		
+		$uploadattendanceurl = new moodle_url("/local/paperattendance/upload.php", array("courseid" => $COURSE->id,"categoryid" => $categoryid));
 		$nodouploadattendance = navigation_node::create(
 				get_string('uploadpaperattendance', 'block_uai'),
 				$uploadattendanceurl,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/backup', get_string('uploadpaperattendance', 'block_uai')));
-		
+	
+		//url para agregar, editar y eliminar modulos
+		$modulesattendanceurl = new moodle_url("/local/paperattendance/modules.php");
 		$nodomodulesattendance = navigation_node::create(
 				get_string('modulespaperattendance', 'block_uai'),
 				$modulesattendanceurl,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/calendar', get_string('modulespaperattendance', 'block_uai')));
-		
-		
+	
+		//url para descargar pdf del listado del curso para tomar asistencia
+		$printattendanceurl = new moodle_url("/local/paperattendance/print.php", array("courseid" => $COURSE->id,"categoryid" =>$categoryid));
+		$nodoprintattendance = navigation_node::create(
+				get_string('printpaperattendance', 'block_uai'),
+				$printattendanceurl,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('e/print', get_string('printpaperattendance', 'block_uai')));
+	
+		//url para ver el historial de pdfs escaneados del curso y sus asistencias digitales
+		$historyattendanceurl = new moodle_url("/local/paperattendance/history.php", array("courseid" => $COURSE->id));
+		$nodohistoryattendance = navigation_node::create(
+				get_string('historypaperattendance', 'block_uai'),
+				$historyattendanceurl,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
+	
 		if(has_capability('local/paperattendance:upload', $context)){
-			if($rootnode == FALSE){
-				$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
-			}
 			$rootnode->add_node($nodouploadattendance);
-		}else if(has_capability('local/paperattendance:upload', $contextsecre)){
-			if($rootnode == FALSE){
-				$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
-			}
-			$rootnode->add_node($nodouploadattendance);
-			$context = $contextsecre;
 		}
 		if(has_capability('local/paperattendance:modules', $context)){
-			if($rootnode == FALSE){
-					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
-				}
 			$rootnode->add_node($nodomodulesattendance);
 		}
-			
-		if(!$course || $course->id > 1 ) {
-			
-			//url para descargar pdf del listado del curso para tomar asistencia
-			$printattendanceurl = new moodle_url("/local/paperattendance/print.php", array(
-					"courseid" => $course->id,
-					"categoryid" =>$categoryid
-			));
 	
-			//url para ver el historial de pdfs escaneados del curso y sus asistencias digitales
-			$historyattendanceurl = new moodle_url("/local/paperattendance/history.php", array(
-					"courseid" => $course->id
-			));
-			
-			$nodoprintattendance = navigation_node::create(
-					get_string('printpaperattendance', 'block_uai'),
-					$printattendanceurl,
-					navigation_node::TYPE_CUSTOM,
-					null, null, new pix_icon('e/print', get_string('printpaperattendance', 'block_uai')));
-
-			$nodohistoryattendance = navigation_node::create(
-					get_string('historypaperattendance', 'block_uai'),
-					$historyattendanceurl,
-					navigation_node::TYPE_CUSTOM,
-					null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
-	
-			if(has_capability('local/paperattendance:print', $context)){
-				if($rootnode == FALSE){
-					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
-				}
+		if($COURSE->id > 1 && $COURSE->idnumber != NULL){
+			if(has_capability('local/paperattendance:print', $context) || has_capability('local/paperattendance:printsecre', $context)){
 				$rootnode->add_node($nodoprintattendance);
 			}
-			
 			if(has_capability('local/paperattendance:history', $context)){
-				if($rootnode == FALSE){
-					$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
-				}
 				$rootnode->add_node($nodohistoryattendance);
 			}
-
 		}
 	
 		return $rootnode;
-		
 	}
 	
 	function syncomega(){
