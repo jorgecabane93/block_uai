@@ -58,4 +58,4 @@ $string['modulespaperattendance']=" Modules editor";
 $string['syncomega']="Omega Sync";
 $string['synchistory']="History";
 $string['synccreate']="Create";
-$string['syncrecord']="Active/Disabled Records";
+$string['syncrecord']="Records";
