@@ -282,25 +282,25 @@ class block_uai extends block_base {
 		}
 
 		$nodonewprintorder = navigation_node::create(
-				get_string('blocknewprintorder', 'mod_emarking'),
+				get_string('blocknewprintorder', 'block_uai'),
 				new moodle_url("/course/modedit.php", array("sr"=>0,"add"=>"emarking","section"=>0,"course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/portfolioadd', get_string('newprintorder', 'mod_emarking')));
 		
 		$nodomyexams = navigation_node::create(
-				get_string('blockmyexams', 'mod_emarking'),
+				get_string('blockmyexams', 'block_uai'),
 				new moodle_url("/mod/emarking/print/exams.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('a/view_list_active', get_string('myexams', 'mod_emarking')));
 		
 		$nodocycle = navigation_node::create(
-				get_string('cycle', 'mod_emarking'),
+				get_string('cycle', 'block_uai'),
 				new moodle_url("/mod/emarking/reports/cycle.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/course', get_string('cycle', 'mod_emarking')));
 
 
-		$rootnode = navigation_node::create(get_string('blockexams', 'mod_emarking'));
+		$rootnode = navigation_node::create(get_string('blockexams', 'block_uai'));
 		$rootnode->add_node($nodonewprintorder);
 		$rootnode->add_node($nodomyexams);
 		$rootnode->add_node($nodocycle);
