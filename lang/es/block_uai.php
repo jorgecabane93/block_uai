@@ -59,6 +59,7 @@ $string['syncomega']="Sincronizaciones Omega";
 $string['synchistory']="Historial";
 $string['synccreate']="Crear";
 $string['syncrecord']="Registros";
+$string['discussionpaperattendance']=" Discusiones de asistencia";
 
 $string['blocknewprintorder'] = 'Enviar emarking a impresión';
 $string['blockmyexams'] = 'Mis emarkings';
