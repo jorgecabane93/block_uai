@@ -634,6 +634,16 @@ class block_uai extends block_base {
 				$historyattendanceurl,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
+		
+		//url para ver las discusiones de asistencia pendientes
+		$discussionattendanceurl = new moodle_url("/local/paperattendance/discussion.php", array(
+				"courseid" => $COURSE->id
+		));
+		$nododiscussionattendance = navigation_node::create(
+				get_string('discussionpaperattendance', 'block_uai'),
+				$discussionattendanceurl,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('i/cohort', get_string('discussionpaperattendance', 'block_uai')));
 	
 		if(has_capability('local/paperattendance:upload', $context)){
 			$rootnode->add_node($nodouploadattendance);
@@ -648,6 +658,7 @@ class block_uai extends block_base {
 			}
 			if(has_capability('local/paperattendance:history', $context)){
 				$rootnode->add_node($nodohistoryattendance);
+				$rootnode->add_node($nododiscussionattendance);
 			}
 		}
 	
