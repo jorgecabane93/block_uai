@@ -645,13 +645,13 @@ class block_uai extends block_base {
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/cohort', get_string('discussionpaperattendance', 'block_uai')));
 		
-		//url para print orders
-		$printordersattendanceurl = new moodle_url("/local/paperattendance/printorders.php", array("courseid" => $COURSE->id,"categoryid" => $categoryid));
-		$nodoprintordersattendance = navigation_node::create(
-				get_string('printorderspaperattendance', 'block_uai'),
-				$printordersattendanceurl,
+		//url para print search
+		$printsearchurl = new moodle_url("/local/paperattendance/printsearch.php", array("courseid" => $COURSE->id,"categoryid" => $categoryid));
+		$nodoprintsearch = navigation_node::create(
+				get_string('printsearchpaperattendance', 'block_uai'),
+				$printsearchurl,
 				navigation_node::TYPE_CUSTOM,
-				null, null, new pix_icon('t/print', get_string('printorderspaperattendance', 'block_uai')));
+				null, null, new pix_icon('t/print', get_string('printsearchpaperattendance', 'block_uai')));
 	
 		if(has_capability('local/paperattendance:upload', $context)){
 			$rootnode->add_node($nodouploadattendance);
@@ -659,8 +659,8 @@ class block_uai extends block_base {
 		if(has_capability('local/paperattendance:modules', $context)){
 			$rootnode->add_node($nodomodulesattendance);
 		}
-		if(has_capability('local/paperattendance:printorders', $context)){
-			$rootnode->add_node($nodoprintordersattendance);
+		if(has_capability('local/paperattendance:printsearch', $context)){
+			$rootnode->add_node($nodoprintsearch);
 		}
 	
 		if($COURSE->id > 1 && $COURSE->idnumber != NULL){
