@@ -60,6 +60,7 @@ $string['synchistory']="History";
 $string['synccreate']="Create";
 $string['syncrecord']="Records";
 $string['discussionpaperattendance']=" Attendances discussions";
+$string['printorderspaperattendance']="Print orders";
 
 $string['blocknewprintorder'] = 'Send new emarking for printing';
 $string['blockmyexams'] = 'My emarkings';
