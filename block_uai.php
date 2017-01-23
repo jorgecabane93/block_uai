@@ -644,12 +644,23 @@ class block_uai extends block_base {
 				$discussionattendanceurl,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/cohort', get_string('discussionpaperattendance', 'block_uai')));
+		
+		//url para print search
+		$printsearchurl = new moodle_url("/local/paperattendance/printsearch.php", array("courseid" => $COURSE->id,"categoryid" => $categoryid));
+		$nodoprintsearch = navigation_node::create(
+				get_string('printsearchpaperattendance', 'block_uai'),
+				$printsearchurl,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('t/print', get_string('printsearchpaperattendance', 'block_uai')));
 	
 		if(has_capability('local/paperattendance:upload', $context)){
 			$rootnode->add_node($nodouploadattendance);
 		}
 		if(has_capability('local/paperattendance:modules', $context)){
 			$rootnode->add_node($nodomodulesattendance);
+		}
+		if(has_capability('local/paperattendance:printsearch', $context)){
+			$rootnode->add_node($nodoprintsearch);
 		}
 	
 		if($COURSE->id > 1 && $COURSE->idnumber != NULL){
