@@ -282,25 +282,25 @@ class block_uai extends block_base {
 		}
 
 		$nodonewprintorder = navigation_node::create(
-				get_string('blocknewprintorder', 'mod_emarking'),
+				get_string('blocknewprintorder', 'block_uai'),
 				new moodle_url("/course/modedit.php", array("sr"=>0,"add"=>"emarking","section"=>0,"course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/portfolioadd', get_string('newprintorder', 'mod_emarking')));
 		
 		$nodomyexams = navigation_node::create(
-				get_string('blockmyexams', 'mod_emarking'),
+				get_string('blockmyexams', 'block_uai'),
 				new moodle_url("/mod/emarking/print/exams.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('a/view_list_active', get_string('myexams', 'mod_emarking')));
 		
 		$nodocycle = navigation_node::create(
-				get_string('cycle', 'mod_emarking'),
+				get_string('cycle', 'block_uai'),
 				new moodle_url("/mod/emarking/reports/cycle.php", array("course"=>$courseid)), //url para enlazar y ver información de facebook
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/course', get_string('cycle', 'mod_emarking')));
 
 
-		$rootnode = navigation_node::create(get_string('blockexams', 'mod_emarking'));
+		$rootnode = navigation_node::create(get_string('blockexams', 'block_uai'));
 		$rootnode->add_node($nodonewprintorder);
 		$rootnode->add_node($nodomyexams);
 		$rootnode->add_node($nodocycle);
@@ -634,12 +634,33 @@ class block_uai extends block_base {
 				$historyattendanceurl,
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('i/grades', get_string('historypaperattendance', 'block_uai')));
+		
+		//url para ver las discusiones de asistencia pendientes
+		$discussionattendanceurl = new moodle_url("/local/paperattendance/discussion.php", array(
+				"courseid" => $COURSE->id
+		));
+		$nododiscussionattendance = navigation_node::create(
+				get_string('discussionpaperattendance', 'block_uai'),
+				$discussionattendanceurl,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('i/cohort', get_string('discussionpaperattendance', 'block_uai')));
+		
+		//url para print search
+		$printsearchurl = new moodle_url("/local/paperattendance/printsearch.php", array("courseid" => $COURSE->id,"categoryid" => $categoryid));
+		$nodoprintsearch = navigation_node::create(
+				get_string('printsearchpaperattendance', 'block_uai'),
+				$printsearchurl,
+				navigation_node::TYPE_CUSTOM,
+				null, null, new pix_icon('t/print', get_string('printsearchpaperattendance', 'block_uai')));
 	
 		if(has_capability('local/paperattendance:upload', $context)){
 			$rootnode->add_node($nodouploadattendance);
 		}
 		if(has_capability('local/paperattendance:modules', $context)){
 			$rootnode->add_node($nodomodulesattendance);
+		}
+		if(has_capability('local/paperattendance:printsearch', $context)){
+			$rootnode->add_node($nodoprintsearch);
 		}
 	
 		if($COURSE->id > 1 && $COURSE->idnumber != NULL){
@@ -648,6 +669,7 @@ class block_uai extends block_base {
 			}
 			if(has_capability('local/paperattendance:history', $context)){
 				$rootnode->add_node($nodohistoryattendance);
+				$rootnode->add_node($nododiscussionattendance);
 			}
 		}
 	
@@ -664,17 +686,20 @@ class block_uai extends block_base {
 			$nodohistorial = navigation_node::create(
 					get_string('synchistory', 'block_uai'),
 					new moodle_url("/local/sync/history.php"),
-					navigation_node::TYPE_CUSTOM, null, null);
+					navigation_node::TYPE_CUSTOM, null, null,
+					new pix_icon('i/siteevent', get_string('synchistory', 'block_uai'))); //url para reservar salas;
 
 			$nodocreate = navigation_node::create(
 					get_string('synccreate', 'block_uai'),
 					new moodle_url("/local/sync/create.php"),
-					navigation_node::TYPE_CUSTOM, null, null);
+					navigation_node::TYPE_CUSTOM, null, null,
+					new pix_icon('e/new_document', get_string('synccreate', 'block_uai')));
 
 			$nodorecord = navigation_node::create(
 					get_string('syncrecord', 'block_uai'),
 					new moodle_url("/local/sync/record.php"),
-					navigation_node::TYPE_CUSTOM, null, null);
+					navigation_node::TYPE_CUSTOM, null, null,
+					new pix_icon('e/fullpage', get_string('syncrecord', 'block_uai')));
 
 
 
