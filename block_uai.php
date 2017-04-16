@@ -592,7 +592,7 @@ class block_uai extends block_base {
 
 	// Bloque de Paperattendance.
 	function paperattendance() {
-		global $COURSE, $PAGE, $CFG;
+		global $COURSE, $PAGE, $CFG, $USER, $DB;
 	
 		if($CFG->block_uai_local_modules && !in_array('paperattendance',explode(',',$CFG->block_uai_local_modules))) {
 			return false;
@@ -600,6 +600,16 @@ class block_uai extends block_base {
 	
 		$categoryid = optional_param("categoryid", 1, PARAM_INT);
 		$context = $PAGE->context;
+		
+		//new feature for the secretary to see printsearch and upload from everywhere
+		$sqlcategory = "SELECT cc.*
+					FROM {course_categories} cc
+					INNER JOIN {role_assignments} ra ON (ra.userid = ?)
+					INNER JOIN {role} r ON (r.id = ra.roleid)
+					INNER JOIN {context} co ON (co.id = ra.contextid)
+					WHERE cc.id = co.instanceid AND r.shortname = ?";
+		$categoryparams = array($USER->id, "secre_pregrado");
+		$secretaryhascategory = $DB->get_record_sql($sqlcategory, $categoryparams);
 	
 		$rootnode = navigation_node::create(get_string('paperattendance', 'block_uai'));
 	
@@ -653,13 +663,13 @@ class block_uai extends block_base {
 				navigation_node::TYPE_CUSTOM,
 				null, null, new pix_icon('t/print', get_string('printsearchpaperattendance', 'block_uai')));
 	
-		if(has_capability('local/paperattendance:upload', $context)){
+		if(has_capability('local/paperattendance:upload', $context) || $secretaryhascategory){
 			$rootnode->add_node($nodouploadattendance);
 		}
 		if(has_capability('local/paperattendance:modules', $context)){
 			$rootnode->add_node($nodomodulesattendance);
 		}
-		if(has_capability('local/paperattendance:printsearch', $context)){
+		if(has_capability('local/paperattendance:printsearch', $context) || $secretaryhascategory){
 			$rootnode->add_node($nodoprintsearch);
 		}
 	
